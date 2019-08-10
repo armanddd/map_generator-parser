@@ -21,5 +21,5 @@ if __name__ == "__main__":
 
             my_solved_map = SolveMap(my_map).solve_map()
         elif choice == '2':
-            map_path = input("Please enter the name of the map : ")
+            map_path = input("Please enter the name of the map (note that your map file should be at the root of the project) : ")
             my_solved_map = SolveMap(map_path).solve_map()
