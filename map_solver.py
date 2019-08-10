@@ -1,20 +1,33 @@
 class SolveMap:
 
     def __init__(self, my_map):
-        self._final_output = ""
-        self._map_content = my_map.get_file_content()
-        self._map_width = my_map.get_width()
-        self._map_height = my_map.get_height()
-        self._path_character = my_map.get_path_character()
-        self._goal_character = my_map.get_goal_character()
-        self._obstacle_character = my_map.get_obstacle_character()
-        self._actual_position_x = my_map.get_starting_position_x()
-        self._actual_position_y = my_map.get_starting_position_y()
-        self._goal_position_x = my_map.get_goal_position_x()
-        self._goal_position_y = my_map.get_goal_position_y()
-        self._line_left_counter = 0
-        self._line_right_counter = 0
-        self._only_one_way = True
+        if isinstance(my_map, str):
+            self._final_output = ""
+            self._map_content = open(my_map, "r").read()
+            self._map_width = SolveMap.find_map_width(self._map_content)
+            self._map_height = SolveMap.find_map_height(self._map_content)
+            self._path_character, self._obstacle_character = SolveMap.find_path_obstacle_character(self._map_content, self._map_width)
+            self._player_character, self._goal_character = SolveMap.find_goal_player_character(self._map_content, self._path_character, self._map_height)
+            self._actual_position_x, self._actual_position_y = SolveMap.find_actual_position_xy(self._map_content, self._player_character)
+            self._goal_position_x, self._goal_position_y = SolveMap.find_goal_position_xy(self._map_content, self._goal_character, self._map_height)
+            self._line_left_counter = 0
+            self._line_right_counter = 0
+            self._only_one_way = True
+        else:
+            self._final_output = ""
+            self._map_content = my_map.get_file_content()
+            self._map_width = my_map.get_width()
+            self._map_height = my_map.get_height()
+            self._path_character = my_map.get_path_character()
+            self._goal_character = my_map.get_goal_character()
+            self._obstacle_character = my_map.get_obstacle_character()
+            self._actual_position_x = my_map.get_starting_position_x()
+            self._actual_position_y = my_map.get_starting_position_y()
+            self._goal_position_x = my_map.get_goal_position_x()
+            self._goal_position_y = my_map.get_goal_position_y()
+            self._line_left_counter = 0
+            self._line_right_counter = 0
+            self._only_one_way = True
 
     def solve_map(self):
         print(self._map_content)
@@ -97,7 +110,7 @@ class SolveMap:
 
                 elif right_iterations == left_iterations and left_iterations > 0:
                     # here we go right or left (depending on w.e will get me closer to the goal position)
-                    if (self._actual_position_x > self._goal_position_x):
+                    if self._actual_position_x > self._goal_position_x:
                         self._actual_position_x = self._actual_position_x - right_iterations
                         self._final_output = self._final_output + ("L" * right_iterations)
                         print("going right and left is same(here i choose left), cause right iterations: ", right_iterations, "and left iterations: ", left_iterations)
@@ -124,14 +137,66 @@ class SolveMap:
                 print(self._final_output)
                 break
 
+    @classmethod
+    def find_map_width(cls, map_str):
+        counter = 0
+        while map_str[counter] != '\n':
+            counter += 1
+        return counter
 
+    @classmethod
+    def find_map_height(cls, map_str):
+        counter = 0
+        for char in map_str:
+            if char == '\n':
+                counter += 1
+        return counter
+
+    @classmethod
+    def find_path_obstacle_character(cls, map_str, map_width):
+        map_tab = map_str.splitlines()
+        obstacle_character = map_tab[0][0]
+        if map_tab[1][1] == map_tab[1][map_width - 1]:
+            path_character = map_tab[1][1]
+        else:
+            path_character = map_tab[1][map_width - 2]
+        return path_character, obstacle_character
+
+    @classmethod
+    def find_goal_player_character(cls, map_str, map_path_character, map_height):
+        map_tab = map_str.splitlines()
+
+        player_counter = 1
+        while map_tab[1][player_counter] == map_path_character:
+            player_counter += 1
+        player_character = map_tab[1][player_counter]
+
+        goal_counter = 1
+        while map_tab[map_height - 2][goal_counter] == map_path_character:
+            goal_counter += 1
+        goal_character = map_tab[map_height - 2][goal_counter]
+
+        return player_character, goal_character
+
+    @classmethod
+    def find_actual_position_xy(cls, map_str, map_player_character):
+        map_tab = map_str.splitlines()
+        counter = 1
+        while map_tab[1][counter] != map_player_character:
+            counter += 1
+        return counter, 1
+
+    @classmethod
+    def find_goal_position_xy(cls, map_str, map_goal_character, map_height):
+        map_tab = map_str.splitlines()
+        counter = 1
+        while map_tab[map_height - 2][counter] != map_goal_character:
+            counter += 1
+        return counter, map_height - 2
 
         # print(map_tab[self._actual_position_y][self._actual_position_x], "***")
-        '''
-        for line in map_tab:
-            for char in line:
-                print(char, "||")
-        '''
         # print(map_tab)
         # print(map_tab.__class__)
+
+
 
