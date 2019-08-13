@@ -1,6 +1,3 @@
-import ctypes
-
-
 class SolveMap:
 
     def __init__(self, my_map):
