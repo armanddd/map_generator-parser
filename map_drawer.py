@@ -46,7 +46,6 @@ def stock_final_output(final_output, starting_x, starting_y):
             starting_y -= 1
         final_res.append((starting_x, starting_y))
         counter += 1
-
     return tuple(final_res)
 
 
@@ -54,7 +53,4 @@ def check_final_input(final_output_tab, height_counter, width_counter):
     for pos in range(len(final_output_tab)):
         if final_output_tab[pos][0] == width_counter and final_output_tab[pos][1] == height_counter:
             return True
-
     return False
-
-
