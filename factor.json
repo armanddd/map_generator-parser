@@ -1,0 +1,46 @@
+{
+  "default": {
+    "factor": 11
+  },
+  "case1": {
+    "width_or_height": 10,
+    "factor": 60
+  },
+  "case2": {
+    "width_or_height": 20,
+    "factor": 36
+  },
+  "case3": {
+    "width_or_height": 30,
+    "factor": 24
+  },
+  "case4": {
+    "width_or_height": 40,
+    "factor": 18
+  },
+  "case5": {
+    "width_or_height": 50,
+    "factor": 14
+  },
+  "case6": {
+    "width_or_height": 60,
+    "factor": 12
+  },
+  "case7": {
+    "width_or_height": 70,
+    "factor": 10
+  },
+  "case8": {
+    "width_or_height": 80,
+    "factor": 9
+  },
+  "case9": {
+    "width_or_height": 90,
+    "factor": 8
+  },
+  "case10": {
+    "width_or_height": 100,
+    "factor": 7
+  }
+
+}
